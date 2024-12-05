@@ -116,7 +116,7 @@ void loadBack(void){
   lv_obj_set_style_bg_color(lv_screen_active(), lv_color_hex(0x20202a), LV_PART_MAIN);
 
   lv_obj_t * label = lv_label_create(lv_screen_active());
-  lv_label_set_text(label, "Beta 1.0.0");
+  lv_label_set_text(label, "Beta 1.0.1");
   lv_obj_set_style_text_color(label, lv_color_hex(0xff80ff), LV_PART_MAIN);
   lv_obj_align(label, LV_ALIGN_CENTER, 0, -80);
 }
@@ -147,6 +147,7 @@ float datFlush(std::vector<byte> numIn){
   byte numCount = numIn.size();
   char set = numIn[1];
   bool isDub = 0;
+  bool isNeg = 0;
   double outF = 0;
   //int outH = 0;
   double expC = 0;
@@ -154,16 +155,37 @@ float datFlush(std::vector<byte> numIn){
     setGear = numIn[2];
     return 0;
   }
+  if(numIn[2] == '-'){
+    isNeg = 1;
+  }
   if (numIn[0] != 20){//notice that numIn is inflated by 1, this simplifies the incriment checker
     isDub = 1;
-    expC = numCount - numIn[0] - 2;//needless ram use? Sure, but think of the casting savings!
+    if(isNeg){
+      expC = numCount - numIn[0] - 3;
+    } else {
+      expC = numCount - numIn[0] - 2;//needless ram use? Sure, but think of the casting savings!
+    }
+    
   } else {
-    expC = numCount - 3;
+    if(isNeg){
+      expC = numCount - 4;
+    } else {
+      expC = numCount - 3;
+    }
   }
-  for (byte i = 2; i < numCount; i++){
+  if (isNeg){
+    for (byte i = 3; i < numCount; i++){
     outF = outF + (static_cast<double>(numIn[i]) - 48) * pow(10,expC);
     expC--;
   }
+  outF = outF * -1;
+  } else {
+    for (byte i = 2; i < numCount; i++){
+    outF = outF + (static_cast<double>(numIn[i]) - 48) * pow(10,expC);
+    expC--;
+  }
+  }
+  
 
   if (isDub){
     switch(set){
