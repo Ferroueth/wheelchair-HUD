@@ -3,7 +3,7 @@
  
 int batteryValue = 0;  
 int speedValue = 0;     
-float x = 0.0, y = 0.0, z = 0.0;
+float x = 0.0, y = 0.0, z = -9.0;
  
 bool batteryIncreasing = true;
 bool speedIncreasing = true;
@@ -38,7 +38,7 @@ void setup() {
  
  
 void loop() {
-  for (int times = 0; times < 150; times++) {
+  for (int times = 0; times < 500; times++) {
  
     // Update batteryValue (0: [0-100])
     if (batteryIncreasing) {
@@ -49,19 +49,21 @@ void loop() {
       if (batteryValue <= 0) batteryIncreasing = true;
     }
  
-    // Update speedValue (1: [1-7])
+    // Update speedValue (1: [1-120])
     if (speedIncreasing) {
       speedValue++;
-      if (speedValue >= 7) speedIncreasing = false;
+      if (speedValue >= 120) speedIncreasing = false;
     } else {
       speedValue--;
       if (speedValue <= 1) speedIncreasing = true;
     }
  
     // Update x, y, z (2: random float values with variance)
-    x += random(-10, 10) / 10.0; // Variance ±1.0
-    y += random(-10, 10) / 10.0; // Variance ±1.0
-    z += random(-10, 10) / 10.0; // Variance ±1.0
+    if (times > 50){
+      x += random(-10, 10) / 10.0; // Variance ±1.0
+      y += random(-10, 10) / 10.0; // Variance ±1.0
+      z += random(-10, 10) / 10.0; // Variance ±1.0
+    }
  
     // Transmit data over I2C
     String message = "B" + String(batteryValue) + ",S" + String(speedValue) + ",X" +
