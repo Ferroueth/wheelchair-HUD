@@ -7,6 +7,24 @@ float x = 0.0, y = 0.0, z = 0.0;
  
 bool batteryIncreasing = true;
 bool speedIncreasing = true;
+
+String getGearChar() {
+  short n = random(0, 3);
+  switch(n){
+    case 0:
+      return "P";
+      break;
+    case 1:
+      return "N";
+      break;
+    case 2:
+      return "D";
+      break;
+    default:
+      return "E";
+  }
+  return "0";
+}
  
 void setup() {
   Wire.begin();             // Join I2C bus
@@ -15,7 +33,7 @@ void setup() {
   delay(1000);         // Wait for Serial to initialize
  
   batteryValue = random(0,101);
-  speedValue = random(1,8);  
+  speedValue = random(1,120);  
 }
  
  
@@ -46,8 +64,11 @@ void loop() {
     z += random(-10, 10) / 10.0; // Variance ±1.0
  
     // Transmit data over I2C
-    String message = "DATA," + String(batteryValue) + "," + String(speedValue) + "," +
-                 String(x, 2) + "," + String(y, 2) + "," + String(z, 2);
+    String message = "B" + String(batteryValue) + ",S" + String(speedValue) + ",X" +
+                 String(x, 2) + ",Y" + String(y, 2) + ",Z" + String(z, 2);
+    if(random(0,6) < 2){
+      message = message + ",G" + getGearChar();
+    }
     Wire.beginTransmission(85);
     Wire.write(message.c_str()); // Send the message as a C-string
     Wire.endTransmission();
@@ -65,7 +86,7 @@ void loop() {
     Serial.print(z, 2);
     Serial.println("] }");
  
-    delay(500); // Wait 500 ms before the next update
+    delay(34); // Wait 500 ms before the next update, test the frames
   }
  
   // Halt after 10 iterations
