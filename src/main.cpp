@@ -116,7 +116,7 @@ void loadBack(void){
   lv_obj_set_style_bg_color(lv_screen_active(), lv_color_hex(0x20202a), LV_PART_MAIN);
 
   lv_obj_t * label = lv_label_create(lv_screen_active());
-  lv_label_set_text(label, "Beta 1.0.1");
+  lv_label_set_text(label, "Beta 1.0.1A");
   lv_obj_set_style_text_color(label, lv_color_hex(0xff80ff), LV_PART_MAIN);
   lv_obj_align(label, LV_ALIGN_CENTER, 0, -80);
 }
@@ -354,7 +354,7 @@ void setup()
   loadTextUnit(tick7,-25,22,"6",0);
   loadTextUnit(tick8,-40,50,"7",0);
   loadTextUnit(tickP,20,10,"Pitch",1);
-  loadTextUnit(tickR,92,-42,"Roll",1);
+  loadTextUnit(tickR,89,-47,"Roll",1);
   /*
   lv_area_t arrtst = {35, 10, 45, 70};
   lv_draw_rect(&layer, &dsc, &arrtst);
