@@ -41,13 +41,16 @@ void loop() {
   for (int times = 0; times < 500; times++) {
  
     // Update batteryValue (0: [0-100])
-    if (batteryIncreasing) {
-      batteryValue++;
-      if (batteryValue >= 100) batteryIncreasing = false;
-    } else {
-      batteryValue--;
-      if (batteryValue <= 0) batteryIncreasing = true;
+    if (times % 10 == 0){
+      if (batteryIncreasing) {
+        batteryValue++;
+        if (batteryValue >= 100) batteryIncreasing = false;
+      } else {
+        batteryValue--;
+        if (batteryValue <= 0) batteryIncreasing = true;
+      }
     }
+    
  
     // Update speedValue (1: [1-120])
     if (speedIncreasing) {
