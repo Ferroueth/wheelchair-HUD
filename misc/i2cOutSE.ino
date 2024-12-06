@@ -9,7 +9,7 @@ bool batteryIncreasing = true;
 bool speedIncreasing = true;
 
 String getGearChar() {
-  short n = random(0, 3);
+  short n = random(0, 4);
   switch(n){
     case 0:
       return "P";
@@ -19,6 +19,9 @@ String getGearChar() {
       break;
     case 2:
       return "D";
+      break;
+    case 3:
+      return "R";
       break;
     default:
       return "E";
