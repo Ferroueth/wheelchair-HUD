@@ -5,7 +5,7 @@ int batteryValue = 0;
 int speedValue = 0;     
 float x = 0.0, y = 0.0, z = -9.0;
  
-bool batteryIncreasing = true;
+bool batteryIncreasing;
 bool speedIncreasing = true;
 
 String getGearChar() {
@@ -36,7 +36,8 @@ void setup() {
   delay(1000);         // Wait for Serial to initialize
  
   batteryValue = random(0,101);
-  speedValue = random(1,120);  
+  speedValue = random(1,120);
+  batteryIncreasing = random(0,2);  
 }
  
  
@@ -44,7 +45,7 @@ void loop() {
   for (int times = 0; times < 500; times++) {
  
     // Update batteryValue (0: [0-100])
-    if (times % 10 == 0){
+    if (times % 5 == 0){
       if (batteryIncreasing) {
         batteryValue++;
         if (batteryValue >= 100) batteryIncreasing = false;
