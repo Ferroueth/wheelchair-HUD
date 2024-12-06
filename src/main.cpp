@@ -34,6 +34,9 @@ lv_area_t nextRect;
 bool inRead = 0;
 bool gap = 0;
 short alloc = 0;
+bool bSet = 0;
+bool bSet2 = 0;
+bool bSet3 = 0;
 //int baseNum;
 char setGear = 'P';
 char* setGearP = &setGear;
@@ -67,6 +70,7 @@ void runMeter(void){
   meter2 = lv_arc_create(lv_screen_active());
   //lv_obj_align(meter2, LV_ALIGN_OUT_RIGHT_MID, 0, 0);
   lv_obj_add_style(meter2, &style, 0);
+  lv_obj_set_style_arc_color(meter2,lv_color_hex3(0x009),LV_PART_INDICATOR);
   lv_obj_center(meter2);
   lv_arc_set_value(meter2, 0);
 }
@@ -116,7 +120,7 @@ void loadBack(void){
   lv_obj_set_style_bg_color(lv_screen_active(), lv_color_hex(0x20202a), LV_PART_MAIN);
 
   lv_obj_t * label = lv_label_create(lv_screen_active());
-  lv_label_set_text(label, "Beta 1.0.1A");
+  lv_label_set_text(label, "Beta 1.0.2");
   lv_obj_set_style_text_color(label, lv_color_hex(0xff80ff), LV_PART_MAIN);
   lv_obj_align(label, LV_ALIGN_CENTER, 0, -80);
 }
@@ -371,6 +375,34 @@ void loop() {
     lv_arc_set_value(meter2, (sVal*100.0) / 120.0);
     lv_label_set_text(shift, reinterpret_cast<const char*>(setGearP));
     lv_label_set_text(batt, (std::to_string(bVal) + "%").c_str());
+
+    if((bSet || bSet2) && bVal < 6){
+      lv_obj_set_style_text_color(batt, lv_color_hex(0x808080), LV_PART_MAIN);
+      bSet = 0;
+      bSet2 = 0;
+    } else
+    if((!bSet || bSet2) && (5 < bVal && bVal < 20)){
+      lv_obj_set_style_text_color(batt, lv_color_hex(0xff4040), LV_PART_MAIN);
+      bSet = 1;
+      bSet2 = 0;
+    } else
+    if((bSet || !bSet2) && (19 < bVal && bVal < 50)){
+      lv_obj_set_style_text_color(batt, lv_color_hex(0xb09010), LV_PART_MAIN);
+      bSet = 0;
+      bSet2 = 1;
+    } else
+    if((!bSet || !bSet2) && 49 < bVal){
+      lv_obj_set_style_text_color(batt, lv_color_hex(0x80ff80), LV_PART_MAIN);
+      bSet = 1;
+      bSet2 = 1;
+    }
+    if(sVal > 108 && !bSet3){
+      lv_obj_set_style_arc_color(meter2,lv_color_hex3(0x900),LV_PART_INDICATOR);
+      bSet3 = 1;
+    } else if(sVal < 108 && bSet3){
+      lv_obj_set_style_arc_color(meter2,lv_color_hex3(0x009),LV_PART_INDICATOR);
+      bSet3 = 0;
+    }
     // Unstable! do not uncomment unless ready (batt, const_cast<const char*>(strcat(reinterpret_cast<char*>(bVal),"%")))
     lv_canvas_fill_bg(canvas, lv_color_hex3(0x333), LV_OPA_COVER);
     nextRect = {recx1, 10, recx2, 90};
