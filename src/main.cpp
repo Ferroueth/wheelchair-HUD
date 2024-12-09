@@ -120,7 +120,7 @@ void loadBack(void){
   lv_obj_set_style_bg_color(lv_screen_active(), lv_color_hex(0x20202a), LV_PART_MAIN);
 
   lv_obj_t * label = lv_label_create(lv_screen_active());
-  lv_label_set_text(label, "Beta 1.0.2");
+  lv_label_set_text(label, "Beta 1.0.2A");
   lv_obj_set_style_text_color(label, lv_color_hex(0xff80ff), LV_PART_MAIN);
   lv_obj_align(label, LV_ALIGN_CENTER, 0, -80);
 }
@@ -287,7 +287,7 @@ void onRece(int len){
       recy2 = 55;
       recy1 = 45 + static_cast<int>(sin(pitch) * 45.0);
     }else{
-      recy1 = 55;
+      recy1 = 45;
       recy2 = 55 + static_cast<int>(sin(pitch) * 45.0);
     }
   }
