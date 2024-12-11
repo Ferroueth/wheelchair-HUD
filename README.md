@@ -1,7 +1,7 @@
 # wheelchair-HUD
 Development environment for the wheelchair display. Designed around the ESP32-2432S022 CYD board.
 
-Version: Beta 1.0.2A
+Version: Beta 1.0.3
 
 GETTING STARTED:
 
