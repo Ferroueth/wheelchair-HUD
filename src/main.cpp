@@ -120,7 +120,7 @@ void loadBack(void){
   lv_obj_set_style_bg_color(lv_screen_active(), lv_color_hex(0x20202a), LV_PART_MAIN);
 
   lv_obj_t * label = lv_label_create(lv_screen_active());
-  lv_label_set_text(label, "Beta 1.0.2A");
+  lv_label_set_text(label, "Beta 1.0.3");
   lv_obj_set_style_text_color(label, lv_color_hex(0xff80ff), LV_PART_MAIN);
   lv_obj_align(label, LV_ALIGN_CENTER, 0, -80);
 }
@@ -165,9 +165,9 @@ float datFlush(std::vector<byte> numIn){
   if (numIn[0] != 20){//notice that numIn is inflated by 1, this simplifies the incriment checker
     isDub = 1;
     if(isNeg){
-      expC = numCount - numIn[0] - 3;
+      expC = numIn[0] - 3;
     } else {
-      expC = numCount - numIn[0] - 2;//needless ram use? Sure, but think of the casting savings!
+      expC = numIn[0] - 2;//needless ram use? Sure, but think of the casting savings!
     }
     
   } else {
@@ -224,6 +224,8 @@ void regDupe(std::vector<byte> numIn, float & xVal, float & yVal, float & zVal){
         case 'Y':
           yVal = datFlush(numIn);
         case 'Z':
+          //Serial.println(numIn[0]);
+          //Serial.println(numIn.size());
           zVal = datFlush(numIn);
         default:
           datFlush(numIn);
@@ -294,7 +296,8 @@ void onRece(int len){
   //setGear = 'F';
   //Serial.println(pitch);
   //Serial.println(roll);
-  //Serial.println(sVal);
+  //Serial.println(xVal);
+  //Serial.println(zVal);
 }
 
 void onRequ(){
